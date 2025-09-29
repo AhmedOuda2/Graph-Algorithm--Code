@@ -12,7 +12,7 @@ const int N = 1e3 + 5, mod = 1e9 + 7, M = 1e18;
 char grid[N][N];
 int n, m;
 bool check(int i, int j) {
-    return i < 0 || i >= n || j < 0 || j >= m || grid[i][j] == '#';
+    return (i >= 0 && i < n && j >= 0 && j < m && grid[i][j] == '.');
 }
 
 void solve() {
@@ -23,10 +23,13 @@ void solve() {
         }
     }
     function<void(int, int)> dfs = [&](int i, int j) {
-        if (check(i, j)) return;
         grid[i][j] = '#';
         for (int k = 0; k < 4; k++) {
-            dfs(i + dx[k], j + dy[k]);
+            int xi = i + dx[k];
+            int xj = j + dy[k];
+            if (check(xi, xj)) {
+                dfs(xi, xj);
+            }
         }
     };
     int cnt = 0;
